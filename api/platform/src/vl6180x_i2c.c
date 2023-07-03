@@ -74,7 +74,7 @@ static int VL6180x_WriteMulti(VL6180xDev_t Dev, uint16_t index, uint8_t *pdata, 
     }
 
     i2c_master_stop(cmd);
-    esp_err_t ret = i2c_master_cmd_begin(Dev->i2c_port_num, cmd, 1000 / portTICK_RATE_MS);
+    esp_err_t ret = i2c_master_cmd_begin(Dev->i2c_port_num, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     int status = (ret == ESP_OK) ? 0 : -1;
@@ -238,7 +238,7 @@ int VL6180x_RdMulti(VL6180xDev_t Dev, uint16_t index, uint8_t *data, int count)
     ESP_ERROR_CHECK(i2c_master_read(cmd, data, count, I2C_MASTER_LAST_NACK));
 
     ESP_ERROR_CHECK(i2c_master_stop(cmd));
-    esp_err_t ret = i2c_master_cmd_begin(Dev->i2c_port_num, cmd, 1000 / portTICK_RATE_MS);
+    esp_err_t ret = i2c_master_cmd_begin(Dev->i2c_port_num, cmd, 1000 / portTICK_PERIOD_MS);
     i2c_cmd_link_delete(cmd);
 
     int status = (ret == ESP_OK) ? 0 : -1;
